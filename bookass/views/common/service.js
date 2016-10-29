@@ -13,6 +13,8 @@ module.exports = {
     book_search: 'https://api.douban.com/v2/book/search',
     //图书详情
     book_search_id: 'https://api.douban.com/v2/book/',
+    //图书详情 by isbn
+    book_search_isbn: 'https://api.douban.com/v2/book/isbn/',
     //音乐搜索
     music_search: 'https://api.douban.com/v2/music/search',
     //音乐详情

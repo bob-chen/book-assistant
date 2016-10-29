@@ -26,7 +26,7 @@ export default class BookList extends Component {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            keywords: 'c语言',
+            keywords: '9787121286469',  // ISBN React精髓
             show: false
         };
         this._renderRow = this._renderRow.bind(this);
@@ -91,16 +91,18 @@ export default class BookList extends Component {
     getData() {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         var that = this;
-        var baseURL = ServiceURL.book_search + '?count=10&q=' + this.state.keywords;
+        // var baseURL = ServiceURL.book_search + '?count=10&q=' + this.state.keywords;
+        var baseURL = ServiceURL.book_search_isbn + this.state.keywords;
         //开启loading
         this.setState({
             show: false
         });
         Util.get(baseURL, function(data){
-            if(!data.books || !data.books.length){
-                return alert('图书服务出错');
-            }
-            var books = data.books;
+            // if(!data.books || !data.books.length){
+            //     return alert('图书服务出错');
+            // }
+            // var books = data.books;
+            var books = [data];
             that.setState({
                 dataSource: ds.cloneWithRows(books),
                 show: true
