@@ -9,7 +9,8 @@ import {
     StyleSheet,
     View,
     Text,
-    Platform
+    Platform,
+    DeviceEventEmitter
 } from 'react-native';
 
 export default class ScanView extends Component {
@@ -46,6 +47,19 @@ export default class ScanView extends Component {
         this.setState({
             code:val.data
         })
+
+        // Use navigator pop
+        // if( this.props.callback ){
+        //     this.props.callback(val.data)
+        // }
+
+        // Use DeviceEventEmitter
+        DeviceEventEmitter.emit('finishScan',val.data);
+
+        if( this.props.navigator ){
+            this.props.navigator.pop();
+        }
+        
     }
 }
 

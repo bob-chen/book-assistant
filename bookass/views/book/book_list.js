@@ -11,7 +11,8 @@ import {
     ScrollView,
     Image,
     ActivityIndicatorIOS,
-    TouchableOpacity
+    TouchableOpacity,
+    DeviceEventEmitter
 } from 'react-native';
 
 import Search from '../common/search';
@@ -19,6 +20,7 @@ import Util from '../common/util';
 import ServiceURL from '../common/service';
 import BookItem from './book_item';
 import BookDetail from './book_detail';
+import ScanView from "./scan_view";
 
 export default class BookList extends Component {
     constructor(props) {
@@ -32,6 +34,7 @@ export default class BookList extends Component {
         this._renderRow = this._renderRow.bind(this);
         this._changeText = this._changeText.bind(this);
         this._search = this._search.bind(this);
+        this._scan = this._scan.bind(this);
     }
 
     render(){
@@ -44,6 +47,9 @@ export default class BookList extends Component {
                     </View>
                     <TouchableOpacity style={styles.btn} onPress={this._search}>
                         <Text style={styles.fontFFF}>搜索</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.scan_btn} onPress={this._scan}>
+                        <Text style={styles.fontFFF}>扫一扫</Text>
                     </TouchableOpacity>
                 </View>
                 {
@@ -60,6 +66,12 @@ export default class BookList extends Component {
 
     componentDidMount() {
         this.getData();
+
+        DeviceEventEmitter.addListener('finishScan',this._changeText);
+    }
+
+    componentWillUnmount() {
+        this.subscription.remove();
     }
 
     _renderRow(row) {
@@ -76,6 +88,16 @@ export default class BookList extends Component {
 
     _search(){
         this.getData();
+    }
+
+    _scan(){
+        this.props.navigator.push({
+            component: ScanView,
+            passProps: {
+                navigator: this.props.navigator,
+                // callback: this._changeText
+            }
+        })
     }
 
     _loadPage(id) {
@@ -129,6 +151,14 @@ var styles = StyleSheet.create({
     },
     btn:{
         width:40,
+        backgroundColor:'#0091FF',
+        justifyContent:'center',
+        alignItems:'center',
+        marginLeft:Util.pixel,
+    },
+    scan_btn: {
+        marginLeft: 5,
+        width:60,
         backgroundColor:'#0091FF',
         justifyContent:'center',
         alignItems:'center',

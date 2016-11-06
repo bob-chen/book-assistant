@@ -16,13 +16,13 @@ import {
 import BookList from "./views/book/book_list";
 import Navigation from "./views/common/navigation";
 
-import ScanView from "./views/book/scan_view";
+// import ScanView from "./views/book/scan_view";
 
 export default class bookass extends Component {
   render() {
     return (
 
-          <Navigation component={ScanView} />
+          <Navigation component={BookList} />
 
     );
   }
