@@ -67,7 +67,7 @@ export default class BookList extends Component {
     componentDidMount() {
         this.getData();
 
-        DeviceEventEmitter.addListener('finishScan',this._changeText);
+        this.subscription = DeviceEventEmitter.addListener('finishScan',this._changeText);
     }
 
     componentWillUnmount() {
